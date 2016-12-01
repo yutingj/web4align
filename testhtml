@@ -1,0 +1,24 @@
+var inline=require('gulp-inline-source');
+var include=require('gulp-include');
+var useref=require('gulp-useref');
+var gulpif=require('gulp-if');
+var print=require('gulp-print');
+var connect=require('gulp-connect');
+
+gulp.task('html', function () {
+    return gulp.src('./src/*.html')
+        .pipe(inline())
+        .pipe(include())
+        .pipe(print())
+        .pipe(useref())
+        .pipe(gulpif('*.js',uglify()))
+        .pipe(gulpif('*.css',mincss()))
+        .pipe(connect.reload())
+        .pipe(gulp.dest('dist'));
+});
+
+gulp.task('default', function(){
+    gulp.run('html');
+	
+
+});
